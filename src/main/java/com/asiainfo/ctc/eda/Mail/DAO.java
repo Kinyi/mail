@@ -12,6 +12,8 @@ import java.util.Calendar;
 
 import jxl.Workbook;
 import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 
@@ -43,7 +45,7 @@ public class DAO {
 		ResultSet rs = null; 
 
 		// 用于封装发邮件的内容
-		StringBuilder sb = new StringBuilder();
+//		StringBuilder sb = new StringBuilder();
 
 		// 昨天,前天,大前天
 		Calendar cal = Calendar.getInstance();
@@ -56,7 +58,7 @@ public class DAO {
 		cal.add(Calendar.DATE, -1);
 		String threedaysago = new SimpleDateFormat("yyyyMMdd").format(cal.getTime());
 
-		sb.append("大家好：\n    大数据平台" + yesterday + "日数据如下\n");
+//		sb.append("大家好：\n    大数据平台" + yesterday + "日数据如下\n");
 
 		try {
 			// 打开文件
@@ -69,19 +71,23 @@ public class DAO {
 			sheet.setColumnView(1,30);
 			sheet.setColumnView(2,15);
 			sheet.setColumnView(3,12);
-			sheet.setColumnView(4,15);
+			sheet.setColumnView(4,17);
 			
 			sheet2.setColumnView(0,30);
-			sheet2.setColumnView(1,15);
-			sheet2.setColumnView(2,15);
-			sheet2.setColumnView(3,15);
+			sheet2.setColumnView(1,17);
+			sheet2.setColumnView(2,17);
+			sheet2.setColumnView(3,17);
+			
+			//设置字体格式
+			WritableFont font = new WritableFont(WritableFont.TIMES, 11, WritableFont.BOLD);
+			WritableCellFormat format = new WritableCellFormat(font);
 			
 			// 在Label对象的构造子中指名单元格位置是第一列第一行(0,0),以及单元格内容为test
-			Label field1 = new Label(0, 0, "op_time");
-			Label field2 = new Label(1, 0, "type_name");
-			Label field3 = new Label(2, 0, "data_num");
-			Label field4 = new Label(3, 0, "partition_num");
-			Label field5 = new Label(4, 0, "size_num");
+			Label field1 = new Label(0, 0, "op_time", format);
+			Label field2 = new Label(1, 0, "type_name", format);
+			Label field3 = new Label(2, 0, "data_num", format);
+			Label field4 = new Label(3, 0, "partition_num", format);
+			Label field5 = new Label(4, 0, "size_num", format);
 			// 将定义好的单元格添加到工作表中
 			sheet.addCell(field1);
 			sheet.addCell(field2);
@@ -114,9 +120,9 @@ public class DAO {
 				
 				Label value1 = new Label(0, i, op_time);
 				Label value2 = new Label(1, i, type_name);
-				Label value3 = new Label(2, i, data_num);
+				Label value3 = new Label(2, i, numberFormat(data_num));
 				Label value4 = new Label(3, i, partition_num);
-				Label value5 = new Label(4, i, size_num);
+				Label value5 = new Label(4, i, numberFormat(size_num));
 				
 				sheet.addCell(value1);
 				sheet.addCell(value2);
@@ -141,10 +147,10 @@ public class DAO {
 //			sb.append(tableheader);
 			
 			// 在Label对象的构造子中指名单元格位置是第一列第一行(0,0),以及单元格内容为test
-			Label field1_ = new Label(0, 0, "type_name");
-			Label field2_ = new Label(1, 0, yesterday);
-			Label field3_ = new Label(2, 0, twodaysago);
-			Label field4_ = new Label(3, 0, threedaysago);
+			Label field1_ = new Label(0, 0, "type_name", format);
+			Label field2_ = new Label(1, 0, yesterday, format);
+			Label field3_ = new Label(2, 0, twodaysago, format);
+			Label field4_ = new Label(3, 0, threedaysago, format);
 			// 将定义好的单元格添加到工作表中
 			sheet2.addCell(field1_);
 			sheet2.addCell(field2_);
