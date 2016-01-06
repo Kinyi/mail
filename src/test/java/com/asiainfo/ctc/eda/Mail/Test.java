@@ -60,4 +60,9 @@ public class Test {
 		System.out.println(40-str.length());
 		System.out.printf("%23s",str);
 	}
+	
+	@org.junit.Test
+	public void sqrt() throws Exception {
+		System.out.println(Math.pow(3, 2));
+	}
 }

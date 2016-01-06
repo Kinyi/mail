@@ -25,7 +25,7 @@ import jxl.write.WritableWorkbook;
  * @author lvqian
  *
  */
-public class DAO {
+public class DAO_ini2 {
 
 	public static void DBConnect() {
 		try {
@@ -81,21 +81,10 @@ public class DAO {
 			sheet.setColumnView(3,12);
 			sheet.setColumnView(4,17);
 			
-
-			sheet2.setColumnView(0,13);
-			for(int i = 1; i<28;i++){
-				if (i == 4 || i == 6 || i == 7 || i == 8 || i == 9 || i == 10 || i == 11 || i == 12 || i == 13) {
-					continue;
-				}
-				sheet2.setColumnView(i,31);
-			}
-			
-			for(int i = 4; i<14;i++){
-				if (i == 5) {
-					continue;
-				}
-				sheet2.setColumnView(i,18);
-			}
+			sheet2.setColumnView(0,30);
+			sheet2.setColumnView(1,17);
+			sheet2.setColumnView(2,17);
+			sheet2.setColumnView(3,17);
 			
 			//设置字体格式
 			WritableFont font = new WritableFont(WritableFont.TIMES, 11, WritableFont.BOLD);
@@ -120,7 +109,7 @@ public class DAO {
 			// ---------------------------------------------------------------------
 
 			stmt = con.createStatement();
-			rs = stmt.executeQuery("SELECT * FROM all_sum_data a WHERE a.`op_time`=" + yesterday + ";");
+			rs = stmt.executeQuery("SELECT * FROM all_sum_data a WHERE a.`op_time`=20151130;");
 
 			// 将输出内容格式化之后再输出
 			// %ns -- 中的n表示整个字符串的长度,若长度不够,左边补空格
@@ -167,16 +156,14 @@ public class DAO {
 			
 			// 在Label对象的构造子中指名单元格位置是第一列第一行(0,0),以及单元格内容为test
 			Label field1_ = new Label(0, 0, "type_name", format);
-			Label field2_ = new Label(0, 1, yesterday, format);
-			Label field3_ = new Label(0, 2, twodaysago, format);
-			Label field4_ = new Label(0, 3, threedaysago, format);
-			Label field5_ = new Label(0, 4, "标准差", format);
+			Label field2_ = new Label(1, 0, yesterday, format);
+			Label field3_ = new Label(2, 0, twodaysago, format);
+			Label field4_ = new Label(3, 0, threedaysago, format);
 			// 将定义好的单元格添加到工作表中
 			sheet2.addCell(field1_);
 			sheet2.addCell(field2_);
 			sheet2.addCell(field3_);
 			sheet2.addCell(field4_);
-			sheet2.addCell(field5_);
 			
 			int j = 0;
 
@@ -187,24 +174,15 @@ public class DAO {
 				String two = rs.getString(3);
 				String three = rs.getString(4);
 				
-				//求方差
-				long one_long = Long.parseLong(one);
-				long two_long = Long.parseLong(two);
-				long three_long = Long.parseLong(three);
-				long avg = (one_long + two_long + three_long)/3;
-				long std_devia = (long) Math.round(Math.sqrt(((Math.pow(one_long - avg, 2) + Math.pow(one_long - avg, 2) + Math.pow(one_long - avg, 2))/3)));
-				
-				Label value1 = new Label(j, 0, type,format);
-				Label value2 = new Label(j, 1, numberFormat(one));
-				Label value3 = new Label(j, 2, numberFormat(two));
-				Label value4 = new Label(j, 3, numberFormat(three));
-				Label value5 = new Label(j, 4, numberFormat(std_devia+""));
+				Label value1 = new Label(0, j, type);
+				Label value2 = new Label(1, j, numberFormat(one));
+				Label value3 = new Label(2, j, numberFormat(two));
+				Label value4 = new Label(3, j, numberFormat(three));
 				
 				sheet2.addCell(value1);
 				sheet2.addCell(value2);
 				sheet2.addCell(value3);
 				sheet2.addCell(value4);
-				sheet2.addCell(value5);
 
 //				String tablecontent = String.format("%28s%20s%20s%20s\n", type, numberFormat(one), numberFormat(two), numberFormat(three));
 //				sb.append(tablecontent);
